@@ -28,7 +28,7 @@ const input = (query) => new Promise(resolve =>
       resolve(input(query));
     }
     const [x, y] = answer;
-    resolve([x - 1, y - 1]);
+    resolve([y - 1, x - 1]);
   })
 );
 
@@ -37,27 +37,14 @@ const printBoard = () => {
 };
 
 const checkWin = (x, y, color) => {
-  const directions = [
-    [0, 1],
-    [1, 0],
-    [1, 1],
-    [-1, 1],
-  ];
+  const dx = [1, -1, 0, 0, 1, -1, 1, -1];
+  const dy = [0, 0, 1, -1, 1, -1, -1, 1];
 
-  for (const [dx, dy] of directions) {
+  for (let dir = 0; dir < 8; dir++) {
     let count = 1;
     for (let i = 1; i < 5; i++) {
-      const nx = x + i * dx;
-      const ny = y + i * dy;
-      if (nx < 0 || nx >= board.length || ny < 0 || ny >= board.length || board[nx][ny] !== color) {
-        break;
-      }
-      count++;
-    }
-
-    for (let i = 1; i < 5; i++) {
-      const nx = x - i * dx;
-      const ny = y - i * dy;
+      const nx = x + i * dx[dir];
+      const ny = y + i * dy[dir];
       if (nx < 0 || nx >= board.length || ny < 0 || ny >= board.length || board[nx][ny] !== color) {
         break;
       }
